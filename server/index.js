@@ -5,15 +5,15 @@ const port = 4000;
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser')
-const config = require('./config/key')
+const config = require('../server/config/key')
 
 //application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: true }));
 //application/json
 app.use(bodyParser.json());
 app.use(cookieParser());
-const { User } = require('./models/User');
-const { auth } = require('./middleware/auth')
+const { User } = require('../server/models/User');
+const { auth } = require('../server/middleware/auth')
 
 mongoose.connect(config.mongoURI)
   .then(() => console.log('MongoDB Connected...'))
@@ -82,5 +82,9 @@ app.get('/api/users/logout', auth, (req, res) => {
         success: true
       });
     });
+});
+
+app.get('/api/hello', (req, res) => {
+  res.send('안녕하세요');
 });
 app.listen(port, () => console.log(`Example app listening on port ${port}!`));
